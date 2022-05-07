@@ -41,6 +41,20 @@ async function run (){
             const result = await productCollection.insertOne(newProduct);
             res.send(result);
         });
+        // update stock
+        app.put('/product/:id', async(req, res)=>{
+            const id = req.params.id;
+            const updatedProduct = req.body;
+            const filter = {_id : ObjectId(id)};
+            const options = { upsert : true };
+            const updatedDoc = {
+                $set : {
+                    quantity : updatedProduct.quantity
+                }
+            };
+            const result = await productCollection.updateOne(filter, updatedDoc, options);
+            res.send(result);
+        })
 
         // Delete
         app.delete('/product/:id', async(req, res)=>{
