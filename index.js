@@ -58,13 +58,25 @@ async function run (){
             const cursor = itemCollection.find(query);
             const items = await cursor.toArray();
             res.send(items);
-        })
+        });
 
+
+        // post
         app.post('/addItem', async (req, res) =>{
                 const addItem = req.body;
                 const result = await itemCollection.insertOne(addItem);
                 res.send(result);
-        })
+        });
+
+        // Delete
+        app.delete('/addItem/:id', async(req, res)=>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await itemCollection.deleteOne(query);
+            res.send(result);
+
+        });
+        
     }
     finally{
 
